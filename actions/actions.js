@@ -1,28 +1,23 @@
 import fetch from 'isomorphic-fetch';
 
-export const SEARCH = 'SEARCH';
-export const INPUT_CHANGE = 'INPUT_CHANGE';
-export const RECEIVE_DATA = 'RECEIVE_DATA';
+export const DAY_VIEW = 'DAY_VIEW';
+export const MONTH_VIEW = 'MONTH_VIEW';
+export const TOGGLE_ADD_VIEW = 'TOGGLE_ADD_VIEW';
 
-export function inputChangeAction(text) {
+export function dayViewAction() {
   return {
-    type: INPUT_CHANGE,
-    text
+    type: DAY_VIEW
   };
 }
 
-export function receiveDataAction(data) {
+export function monthViewAction() {
   return {
-    type: RECEIVE_DATA,
-    data
+    type: MONTH_VIEW
   };
 }
 
-export function searchAction(text) {
-  return dispatch => {
-    dispatch(inputChangeAction(text));
-    return fetch(`https://api.github.com/search/repositories?q=${text}`)
-    .then(res => res.json())
-    .then(json => dispatch(receiveDataAction(json)));
+export function toggleAddViewAction() {
+  return {
+    type: TOGGLE_ADD_VIEW
   };
 }
