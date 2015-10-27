@@ -5,9 +5,9 @@ import thunkMiddleware from 'redux-thunk';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './containers/App';
-import {combineReducers, applyMiddleware, createStore, compose} from 'redux';
+import {applyMiddleware, createStore, compose} from 'redux';
 import {Provider} from 'react-redux';
-import * as reducers from './reducers/reducers';
+import reducers from './reducers/reducers';
 
 // Redux DevTools store enhancers
 import {devTools, persistState} from 'redux-devtools';
@@ -20,8 +20,7 @@ const createStoreWithMiddleware = compose(
   persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/))
 )(createStore);
 
-const geekrApp = combineReducers(reducers);
-const store = createStoreWithMiddleware(geekrApp);
+const store = createStoreWithMiddleware(reducers);
 
 ReactDOM.render(
   <div>
