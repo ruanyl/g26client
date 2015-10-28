@@ -11,11 +11,9 @@ export default class Add extends Component {
   constructor() {
     super();
     this.menuItems = [
-      { payload: '1', text: 'Never' },
-      { payload: '2', text: 'Every Night' },
-      { payload: '3', text: 'Weeknights' },
-      { payload: '5', text: 'Weekly' },
-      { payload: '4', text: 'Weekends' }
+      { payload: '1', text: 'Low' },
+      { payload: '2', text: 'Medium' },
+      { payload: '3', text: 'High' },
     ];
   }
 
@@ -70,7 +68,7 @@ export default class Add extends Component {
           <div className='mdl-cell mdl-cell--4-col'>
             <div className='mdl-textfield mdl-js-textfield mdl-textfield--floating-label'>
               <input
-                defaultValue={this.props.title}
+                value={this.props.title}
                 onChange={this._handleTitle.bind(this)}
                 className='mdl-textfield__input'
                 type='text'
@@ -79,7 +77,7 @@ export default class Add extends Component {
             </div>
             <div className='mdl-textfield mdl-js-textfield mdl-textfield--floating-label'>
               <input
-                defaultValue={this.props.content}
+                value={this.props.content}
                 onChange={this._handleContent.bind(this)}
                 className='mdl-textfield__input'
                 type='text'
@@ -88,7 +86,7 @@ export default class Add extends Component {
             </div>
             <div className='mdl-textfield mdl-js-textfield mdl-textfield--floating-label'>
             <SelectField
-              defaultValue={this.props.priority}
+              value={this.props.priority}
               onChange={this._handlePriority.bind(this)}
               hintText="Hint Text"
               menuItems={this.menuItems} />

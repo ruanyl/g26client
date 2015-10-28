@@ -5,7 +5,8 @@ import {
   ADD_CONTENT,
   ADD_PRIORITY,
   ADD_END_TIME,
-  ADD_START_TIME
+  ADD_START_TIME,
+  SAVED
 } from '../actions/addActions';
 
 const addState = {
@@ -34,6 +35,8 @@ export function addData(state = addState, action) {
       return Object.assign({}, state, {endDate: action.endDate});
     case ADD_END_TIME:
       return Object.assign({}, state, {endTime: action.endTime});
+    case SAVED:
+      return Object.assign({}, state, addState);
     default:
       return state;
   }

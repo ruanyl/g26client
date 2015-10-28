@@ -1,4 +1,5 @@
 import request from 'superagent';
+import moment from 'moment';
 
 export const ADD_TITLE = 'ADD_TITLE';
 export const ADD_CONTENT = 'ADD_CONTENT';
@@ -81,10 +82,17 @@ function _notSavedAction() {
 }
 
 export function saveAction(data) {
+  let start = moment(data.startDate).format('YYYY-MM-DD ') +
+    moment(data.startTime).format('HH:mm:ss');
+  let end = moment(data.endDate).format('YYYY-MM-DD ') +
+    moment(data.endTime).format('HH:mm:ss');
+  start = moment(start).valueOf();
+  end = moment(end).valueOf();
+  data = Object.assign({}, data, {start: start, end: end});
   return dispatch => {
     dispatch(_savingAction());
     return request.post(API_ENDPOINT + '/event')
-    .send({data})
+    .send(data)
     .end(function(err, res) {
       if(res && res.status !== 'error') {
         dispatch(_savedAction());
