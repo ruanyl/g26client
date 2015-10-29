@@ -94,7 +94,7 @@ export function saveAction(data) {
     return request.post(API_ENDPOINT + '/event')
     .send(data)
     .end(function(err, res) {
-      if(res && res.status !== 'error') {
+      if(res && res.body.status !== 'error') {
         dispatch(_savedAction());
       } else {
         dispatch(_notSavedAction());

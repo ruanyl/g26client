@@ -88,7 +88,7 @@ export default class Add extends Component {
             <SelectField
               value={this.props.priority}
               onChange={this._handlePriority.bind(this)}
-              hintText="Hint Text"
+              hintText='Hint Text'
               menuItems={this.menuItems} />
             </div>
           </div>

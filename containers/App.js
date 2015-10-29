@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Toolbar from '../components/Toolbar';
 import Add from '../components/Add';
+import Day from '../components/Day';
 import {connect} from 'react-redux';
 import {dayViewAction, monthViewAction, toggleAddViewAction} from '../actions/uiActions';
 import {addTitleAction,
@@ -18,9 +19,10 @@ injectTapEventPlugin();
 
 class App extends Component {
 
-  /*handleSearch(text) {
-    this.props.dispatch(searchAction(text))
-  }*/
+  componentDidMount() {
+    this.props.dispatch(dayViewAction());
+  }
+
 
   handleDayView() {
     this.props.dispatch(dayViewAction());
@@ -84,6 +86,7 @@ class App extends Component {
           dayView={this.handleDayView.bind(this)}
           monthView={this.handleMonthView.bind(this)}
           addView={this.handleAddView.bind(this)} />
+        <Day data={view.data} />
         <Add
           {...listeners}
           {...addData}

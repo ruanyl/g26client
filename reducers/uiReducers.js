@@ -2,16 +2,22 @@ import {
   DAY_VIEW,
   MONTH_VIEW,
   TOGGLE_ADD_VIEW,
+  DAY_DATA_RECEIVE,
+  DAY_DATA_NOT_RECEIVE
+} from '../actions/uiActions';
+import {
   SAVING,
   SAVED,
   NOT_SAVED
-} from '../actions/uiActions';
+} from '../actions/addActions';
 
 const viewState = {
   view: 'day',
   showAdd: false,
   isSaving: false,
-  isSaved: true
+  isSaved: true,
+  dataError: false,
+  data: []
 };
 
 export function uiState(state = viewState, action) {
@@ -26,9 +32,13 @@ export function uiState(state = viewState, action) {
     case SAVING:
       return Object.assign({}, state, {isSaving: true});
     case SAVED:
-      return Object.assign({}, state, {isSaved: true});
+      return Object.assign({}, state, {isSaving: false, isSaved: true});
     case NOT_SAVED:
-      return Object.assign({}, state, {isSaved: false});
+      return Object.assign({}, state, {isSaving: false, isSaved: false});
+    case DAY_DATA_NOT_RECEIVE:
+      return Object.assign({}, state, {dataError: true});
+    case DAY_DATA_RECEIVE:
+      return Object.assign({}, state, {dataError: false, data: action.data});
     default:
       return state;
   }
