@@ -18,11 +18,13 @@ export default class Day extends Component {
 
   render() {
     return (
-      <List subheader='today'>
-        {this.props.data.map((item, index) => {
-          return <Event {...item} />;
-        })}
-      </List>
+      <div className="list">
+        <List subheader='today'>
+          {this.props.data.map((item, index) => {
+            return <Event key={item._id} {...item} />;
+          })}
+        </List>
+      </div>
     );
   }
 
