@@ -3,7 +3,8 @@ import {
   MONTH_VIEW,
   TOGGLE_ADD_VIEW,
   DAY_DATA_RECEIVE,
-  DAY_DATA_NOT_RECEIVE
+  DAY_DATA_NOT_RECEIVE,
+  DELETE_EVENT
 } from '../actions/uiActions';
 import {
   SAVING,
@@ -39,6 +40,11 @@ export function uiState(state = viewState, action) {
       return Object.assign({}, state, {dataError: true});
     case DAY_DATA_RECEIVE:
       return Object.assign({}, state, {dataError: false, data: action.data});
+    case DELETE_EVENT:
+      let data = state.data.filter(function(event) {
+        return !(action.id === event._id);
+      });
+      return Object.assign({}, state, {data: data});
     default:
       return state;
   }

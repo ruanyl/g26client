@@ -86,7 +86,7 @@ class App extends Component {
           dayView={this.handleDayView.bind(this)}
           monthView={this.handleMonthView.bind(this)}
           addView={this.handleAddView.bind(this)} />
-        <Day data={view.data} />
+        <Day />
         <Add
           {...listeners}
           {...addData}

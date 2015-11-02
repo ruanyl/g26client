@@ -5,6 +5,8 @@ export const MONTH_VIEW = 'MONTH_VIEW';
 export const TOGGLE_ADD_VIEW = 'TOGGLE_ADD_VIEW';
 export const DAY_DATA_RECEIVE = 'DAY_DATA_RECEIVE';
 export const DAY_DATA_NOT_RECEIVE = 'DAY_DATA_NOT_RECEIVE';
+export const EDIT_EVENT = 'EDIT_EVENT';
+export const DELETE_EVENT = 'DELETE_EVENT';
 const API_ENDPOINT = 'http://localhost:3000';
 
 function _dayViewAction() {
@@ -47,6 +49,31 @@ export function dayViewAction() {
         dispatch(_dayDataReceiveAction(res.body));
       } else {
         dispatch(_dayDataNotReceiveAction());
+      }
+    });
+  };
+}
+
+export function editEventAction(id) {
+  return {
+    type: EDIT_EVENT,
+    id
+  };
+}
+
+function _deleteEventAction(id) {
+  return {
+    type: DELETE_EVENT,
+    id
+  };
+}
+
+export function deleteEventAction(id) {
+  return dispatch => {
+    return request.del(API_ENDPOINT + '/event/' + id)
+    .end(function(err, res) {
+      if(res && res.status !== 'error') {
+        dispatch(_deleteEventAction(id));
       }
     });
   };

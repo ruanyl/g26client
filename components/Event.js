@@ -20,10 +20,19 @@ export default class Event extends Component {
     this.rightIconMenu = <IconMenu
       iconButtonElement={moreBtn}
       iconStyle={{ color: '#ccc' }}
+      onItemTouchTap={this._handleItem.bind(this)}
       >
       <MenuItem index={1} primaryText='Edit' />
       <MenuItem index={2} primaryText='Remove' />
     </IconMenu>;
+  }
+
+  _handleItem(event, value) {
+    if(value.props.primaryText === 'Edit') {
+      this.props.handleEventEdit(this.props._id);
+    } else if(value.props.primaryText === 'Remove') {
+      this.props.handleEventDelete(this.props._id);
+    }
   }
 
   getPriorityBtn(priority) {
