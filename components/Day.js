@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 import Event from './Event';
-import { deleteEventAction } from '../actions/uiActions';
+import { deleteEventAction, editEventAction } from '../actions/uiActions';
 import {
   List
 } from 'material-ui';
@@ -22,8 +22,9 @@ class Day extends Component {
     this.props.dispatch(deleteEventAction(id));
   }
 
-  _handleEventEdit(id) {
-    console.log('Edit: ' + id);
+  _handleEventEdit(event) {
+    console.log(event);
+    this.props.dispatch(editEventAction(event));
   }
 
   render() {

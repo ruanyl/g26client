@@ -1,13 +1,24 @@
 import React, {Component} from 'react';
 import classNames from 'classnames';
+import { connect } from 'react-redux';
+import {addTitleAction,
+  addContentAction,
+  addPriorityAction,
+  addStartDateAction,
+  addStartTimeAction,
+  addEndDateAction,
+  addEndTimeAction,
+  saveAction
+} from '../actions/addActions';
 import {
   TimePicker,
   DatePicker,
   SelectField,
   RaisedButton
 } from 'material-ui';
+import moment from 'moment';
 
-export default class Add extends Component {
+class Add extends Component {
   constructor() {
     super();
     this.menuItems = [
@@ -15,10 +26,16 @@ export default class Add extends Component {
       { payload: '2', text: 'Medium' },
       { payload: '3', text: 'High' },
     ];
-  }
-
-  handleInputChange(e) {
-    this.props.search(e.target.value);
+    this.eventData = {
+      _id: '',
+      title: '',
+      content: '',
+      priority: 1,
+      startDate: new Date(),
+      startTime: new Date(),
+      endDate: new Date(),
+      endTime: new Date()
+    };
   }
 
   getWrapClass() {
@@ -29,39 +46,54 @@ export default class Add extends Component {
     return wrapClassName;
   }
 
-  _handleTitle(e) {
-    this.props.onTitle(e.target.value);
+  handleTitle(e) {
+    this.eventData.title = e.target.value;
+    this.props.dispatch(addTitleAction(e.target.value));
   }
 
-  _handleContent(e) {
-    this.props.onContent(e.target.value);
+  handleContent(e) {
+    this.eventData.content = e.target.value;
+    this.props.dispatch(addContentAction(e.target.value));
   }
 
-  _handlePriority(e) {
-    this.props.onPriority(e.target.value);
+  handlePriority(e) {
+    this.eventData.priority = e.target.value;
+    this.props.dispatch(addPriorityAction(e.target.value));
   }
 
-  _handleStartDate(e, date) {
-    this.props.onStartDate(date);
+  handleStartDate(e, date) {
+    this.eventData.startDate = date;
+    this.props.dispatch(addStartDateAction(date));
   }
 
-  _handleStartTime(e, time) {
-    this.props.onStartTime(time);
+  handleStartTime(e, time) {
+    this.eventData.startTime = time;
+    this.props.dispatch(addStartTimeAction(time));
   }
 
-  _handleEndDate(e, date) {
-    this.props.onEndDate(date);
+  handleEndDate(e, date) {
+    this.eventData.endDate = date;
+    this.props.dispatch(addEndDateAction(date));
   }
 
-  _handleEndTime(e, time) {
-    this.props.onEndTime(time);
+  handleEndTime(e, time) {
+    this.eventData.endTime = time;
+    this.props.dispatch(addEndTimeAction(time));
   }
 
-  _handleSave() {
-    this.props.onSave();
+  handleSave() {
+    let start = moment(this.eventData.startDate).format('YYYY-MM-DD ') +
+      moment(this.eventData.startTime).format('HH:mm:ss');
+    let end = moment(this.eventData.endDate).format('YYYY-MM-DD ') +
+      moment(this.eventData.endTime).format('HH:mm:ss');
+    start = moment(start).valueOf();
+    end = moment(end).valueOf();
+    const data = Object.assign({}, this.eventData, {start: start, end: end});
+    this.props.dispatch(saveAction(data));
   }
 
   render() {
+    const { addData } = this.props;
     return (
       <div className={this.getWrapClass()}>
         <div className='mdl-grid'>
@@ -69,7 +101,7 @@ export default class Add extends Component {
             <div className='mdl-textfield mdl-js-textfield mdl-textfield--floating-label'>
               <input
                 value={this.props.title}
-                onChange={this._handleTitle.bind(this)}
+                onChange={this.handleTitle.bind(this)}
                 className='mdl-textfield__input'
                 type='text'
                 id='title' />
@@ -78,7 +110,7 @@ export default class Add extends Component {
             <div className='mdl-textfield mdl-js-textfield mdl-textfield--floating-label'>
               <input
                 value={this.props.content}
-                onChange={this._handleContent.bind(this)}
+                onChange={this.handleContent.bind(this)}
                 className='mdl-textfield__input'
                 type='text'
                 id='content' />
@@ -87,7 +119,7 @@ export default class Add extends Component {
             <div className='mdl-textfield mdl-js-textfield mdl-textfield--floating-label'>
             <SelectField
               value={this.props.priority}
-              onChange={this._handlePriority.bind(this)}
+              onChange={this.handlePriority.bind(this)}
               hintText='Hint Text'
               menuItems={this.menuItems} />
             </div>
@@ -97,13 +129,13 @@ export default class Add extends Component {
               <div className='mdl-cell mdl-cell--6-col'>
                 <DatePicker
                   defaultDate={this.props.startDate}
-                  onChange={this._handleStartDate.bind(this)}
+                  onChange={this.handleStartDate.bind(this)}
                   hintText='Start Date' />
               </div>
               <div className='mdl-cell mdl-cell--6-col'>
                 <TimePicker
                   defaultTime={this.props.startTime}
-                  onChange={this._handleStartTime.bind(this)}
+                  onChange={this.handleStartTime.bind(this)}
                   format='24hr'
                   hintText='Start Time' />
               </div>
@@ -112,13 +144,13 @@ export default class Add extends Component {
               <div className='mdl-cell mdl-cell--6-col'>
                 <DatePicker
                   defaultDate={this.props.endDate}
-                  onChange={this._handleEndDate.bind(this)}
+                  onChange={this.handleEndDate.bind(this)}
                   hintText='End Date' />
               </div>
               <div className='mdl-cell mdl-cell--6-col'>
                 <TimePicker
                   defaultTime={this.props.endTime}
-                  onChange={this._handleEndTime.bind(this)}
+                  onChange={this.handleEndTime.bind(this)}
                   format='24hr'
                   hintText='End Time' />
               </div>
@@ -127,7 +159,7 @@ export default class Add extends Component {
               <RaisedButton
                 label='Save'
                 primary={true}
-                onClick={this._handleSave.bind(this)}
+                onClick={this.handleSave.bind(this)}
               />
             </div>
           </div>
@@ -137,3 +169,7 @@ export default class Add extends Component {
   }
 
 }
+
+export default connect(state => ({
+  ...state.addData
+}))(Add);

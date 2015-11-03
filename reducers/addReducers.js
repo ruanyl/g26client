@@ -8,8 +8,13 @@ import {
   ADD_START_TIME,
   SAVED
 } from '../actions/addActions';
+import {
+  TOGGLE_ADD_VIEW,
+  EDIT_EVENT
+} from '../actions/uiActions';
 
 const addState = {
+  _id: '',
   title: '',
   content: '',
   priority: 1,
@@ -37,6 +42,10 @@ export function addData(state = addState, action) {
       return Object.assign({}, state, {endTime: action.endTime});
     case SAVED:
       return Object.assign({}, state, addState);
+    case EDIT_EVENT:
+      return Object.assign({}, state, action.event);
+    case TOGGLE_ADD_VIEW:
+      return Object.assign({}, state, {_id: ''});
     default:
       return state;
   }

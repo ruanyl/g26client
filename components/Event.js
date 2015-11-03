@@ -28,9 +28,17 @@ export default class Event extends Component {
     </IconMenu>;
   }
 
-  _handleItem(event, value) {
+  _handleItem(e, value) {
     if(value.props.primaryText === 'Edit') {
-      this.props.handleEventEdit(this.props._id);
+      let event = {
+        _id: this.props._id,
+        title: this.props.title,
+        content: this.props.content,
+        priority: this.props.priority,
+        start: this.props.start,
+        end: this.props.end
+      };
+      this.props.handleEventEdit(event);
     } else if(value.props.primaryText === 'Remove') {
       this.props.handleEventDelete(this.props._id);
     }

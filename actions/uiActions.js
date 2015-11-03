@@ -54,10 +54,10 @@ export function dayViewAction() {
   };
 }
 
-export function editEventAction(id) {
+export function editEventAction(event) {
   return {
     type: EDIT_EVENT,
-    id
+    event
   };
 }
 

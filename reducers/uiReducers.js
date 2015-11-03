@@ -4,7 +4,8 @@ import {
   TOGGLE_ADD_VIEW,
   DAY_DATA_RECEIVE,
   DAY_DATA_NOT_RECEIVE,
-  DELETE_EVENT
+  DELETE_EVENT,
+  EDIT_EVENT
 } from '../actions/uiActions';
 import {
   SAVING,
@@ -45,6 +46,8 @@ export function uiState(state = viewState, action) {
         return !(action.id === event._id);
       });
       return Object.assign({}, state, {data: data});
+    case EDIT_EVENT:
+      return Object.assign({}, state, {showAdd: true});
     default:
       return state;
   }
