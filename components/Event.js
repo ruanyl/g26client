@@ -7,6 +7,7 @@ import {
   ListDivider
 } from 'material-ui';
 import MenuItem from 'material-ui/lib/menus/menu-item';
+import moment from 'moment';
 
 export default class Event extends Component {
   constructor(props) {
@@ -56,7 +57,10 @@ export default class Event extends Component {
           rightIconButton={this.rightIconMenu}
           leftIcon={this.getPriorityBtn(this.props.priority)}
           secondaryText={
-            <span style={{color: '#555'}}>{this.props.content}</span>
+            <p>
+              <span style={{color: '#555'}}>{this.props.content}</span><br/>
+              {moment(this.props.start).format('MM/DD H:m')} to {moment(this.props.end).format('MM/DD H:m')}
+            </p>
           }
           secondaryTextLines={2} />
         <ListDivider />
