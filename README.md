@@ -1,2 +1,2 @@
-redux-async-boilerplate
+g26client
 =======================
