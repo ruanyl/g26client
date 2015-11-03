@@ -6,7 +6,8 @@ import {
   ADD_PRIORITY,
   ADD_END_TIME,
   ADD_START_TIME,
-  SAVED
+  SAVED,
+  UPDATED
 } from '../actions/addActions';
 import {
   TOGGLE_ADD_VIEW,
@@ -42,10 +43,12 @@ export function addData(state = addState, action) {
       return Object.assign({}, state, {endTime: action.endTime});
     case SAVED:
       return Object.assign({}, state, addState);
+    case UPDATED:
+      return Object.assign({}, state, addState);
     case EDIT_EVENT:
       return Object.assign({}, state, action.event);
     case TOGGLE_ADD_VIEW:
-      return Object.assign({}, state, {_id: ''});
+      return Object.assign({}, state, addState); // when click add button, reset the state of add view to defaul
     default:
       return state;
   }

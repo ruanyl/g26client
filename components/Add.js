@@ -8,7 +8,8 @@ import {addTitleAction,
   addStartTimeAction,
   addEndDateAction,
   addEndTimeAction,
-  saveAction
+  saveAction,
+  updateAction
 } from '../actions/addActions';
 import {
   TimePicker,
@@ -19,8 +20,8 @@ import {
 import moment from 'moment';
 
 class Add extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.menuItems = [
       { payload: '1', text: 'Low' },
       { payload: '2', text: 'Medium' },
@@ -30,12 +31,16 @@ class Add extends Component {
       _id: '',
       title: '',
       content: '',
-      priority: 1,
+      priority: '',
       startDate: new Date(),
       startTime: new Date(),
       endDate: new Date(),
       endTime: new Date()
     };
+  }
+
+  componentWillUpdate(props) {
+    this.eventData = Object.assign({}, this.eventData, props.addData);
   }
 
   getWrapClass() {
@@ -88,19 +93,24 @@ class Add extends Component {
       moment(this.eventData.endTime).format('HH:mm:ss');
     start = moment(start).valueOf();
     end = moment(end).valueOf();
-    const data = Object.assign({}, this.eventData, {start: start, end: end});
-    this.props.dispatch(saveAction(data));
+    const data = Object.assign({}, this.eventData, {start: start, end: end, _id: this.props.addData._id});
+    if(data._id) {
+      this.props.dispatch(updateAction(data));
+    } else {
+      this.props.dispatch(saveAction(data));
+    }
   }
 
   render() {
-    const { addData } = this.props;
+    const {addData} = this.props;
     return (
       <div className={this.getWrapClass()}>
         <div className='mdl-grid'>
           <div className='mdl-cell mdl-cell--4-col'>
             <div className='mdl-textfield mdl-js-textfield mdl-textfield--floating-label'>
               <input
-                value={this.props.title}
+                value={addData.title}
+                defaultValue={addData.title}
                 onChange={this.handleTitle.bind(this)}
                 className='mdl-textfield__input'
                 type='text'
@@ -109,7 +119,8 @@ class Add extends Component {
             </div>
             <div className='mdl-textfield mdl-js-textfield mdl-textfield--floating-label'>
               <input
-                value={this.props.content}
+                value={addData.content}
+                defaultValue={addData.content}
                 onChange={this.handleContent.bind(this)}
                 className='mdl-textfield__input'
                 type='text'
@@ -118,7 +129,8 @@ class Add extends Component {
             </div>
             <div className='mdl-textfield mdl-js-textfield mdl-textfield--floating-label'>
             <SelectField
-              value={this.props.priority}
+              value={addData.priority}
+              defaultValue={addData.priority}
               onChange={this.handlePriority.bind(this)}
               hintText='Hint Text'
               menuItems={this.menuItems} />
@@ -128,13 +140,13 @@ class Add extends Component {
             <div className='mdl-grid'>
               <div className='mdl-cell mdl-cell--6-col'>
                 <DatePicker
-                  defaultDate={this.props.startDate}
+                  defaultDate={addData.startDate}
                   onChange={this.handleStartDate.bind(this)}
                   hintText='Start Date' />
               </div>
               <div className='mdl-cell mdl-cell--6-col'>
                 <TimePicker
-                  defaultTime={this.props.startTime}
+                  defaultTime={addData.startTime}
                   onChange={this.handleStartTime.bind(this)}
                   format='24hr'
                   hintText='Start Time' />
@@ -143,13 +155,13 @@ class Add extends Component {
             <div className='mdl-grid'>
               <div className='mdl-cell mdl-cell--6-col'>
                 <DatePicker
-                  defaultDate={this.props.endDate}
+                  defaultDate={addData.endDate}
                   onChange={this.handleEndDate.bind(this)}
                   hintText='End Date' />
               </div>
               <div className='mdl-cell mdl-cell--6-col'>
                 <TimePicker
-                  defaultTime={this.props.endTime}
+                  defaultTime={addData.endTime}
                   onChange={this.handleEndTime.bind(this)}
                   format='24hr'
                   hintText='End Time' />
@@ -171,5 +183,5 @@ class Add extends Component {
 }
 
 export default connect(state => ({
-  ...state.addData
+  addData: state.addData
 }))(Add);

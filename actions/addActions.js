@@ -11,6 +11,7 @@ export const ADD_END_TIME = 'ADD_END_TIME';
 export const SAVE = 'SAVE';
 export const SAVING = 'SAVING';
 export const SAVED = 'SAVED';
+export const UPDATED = 'UPDATED';
 export const NOT_SAVED = 'NOT_SAVED';
 const API_ENDPOINT = 'http://localhost:3000';
 
@@ -69,9 +70,17 @@ function _savingAction() {
   };
 }
 
-function _savedAction() {
+function _savedAction(event) {
   return {
-    type: SAVED
+    type: SAVED,
+    event
+  };
+}
+
+function _updatedAction(event) {
+  return {
+    type: UPDATED,
+    event
   };
 }
 
@@ -82,20 +91,28 @@ function _notSavedAction() {
 }
 
 export function saveAction(data) {
-  let start = moment(data.startDate).format('YYYY-MM-DD ') +
-    moment(data.startTime).format('HH:mm:ss');
-  let end = moment(data.endDate).format('YYYY-MM-DD ') +
-    moment(data.endTime).format('HH:mm:ss');
-  start = moment(start).valueOf();
-  end = moment(end).valueOf();
-  data = Object.assign({}, data, {start: start, end: end});
   return dispatch => {
     dispatch(_savingAction());
     return request.post(API_ENDPOINT + '/event')
     .send(data)
     .end(function(err, res) {
       if(res && res.body.status !== 'error') {
-        dispatch(_savedAction());
+        dispatch(_savedAction(res.body));
+      } else {
+        dispatch(_notSavedAction());
+      }
+    });
+  };
+}
+
+export function updateAction(data) {
+  return dispatch => {
+    dispatch(_savingAction());
+    return request.put(API_ENDPOINT + '/event/' + data._id)
+    .send(data)
+    .end(function(err, res) {
+      if(res && res.body.status !== 'error') {
+        dispatch(_updatedAction(data));
       } else {
         dispatch(_notSavedAction());
       }

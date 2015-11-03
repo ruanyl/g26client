@@ -18,20 +18,19 @@ class Day extends Component {
   }
 
   _handleEventDelete(id) {
-    console.log('Delete: ' + id);
     this.props.dispatch(deleteEventAction(id));
   }
 
   _handleEventEdit(event) {
-    console.log(event);
     this.props.dispatch(editEventAction(event));
   }
 
   render() {
+    console.log(this.props.uiState.data);
     return (
       <div className="list">
         <List subheader='today'>
-          {this.props.data.map((item, index) => {
+          {this.props.uiState.data.map((item, index) => {
             return <Event
               key={item._id}
               {...item}
@@ -46,5 +45,5 @@ class Day extends Component {
 }
 
 export default connect(state => ({
-  data: state.uiState.data
+  uiState: state.uiState
 }))(Day);

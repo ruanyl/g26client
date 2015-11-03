@@ -10,6 +10,7 @@ import {
 import {
   SAVING,
   SAVED,
+  UPDATED,
   NOT_SAVED
 } from '../actions/addActions';
 
@@ -34,7 +35,16 @@ export function uiState(state = viewState, action) {
     case SAVING:
       return Object.assign({}, state, {isSaving: true});
     case SAVED:
-      return Object.assign({}, state, {isSaving: false, isSaved: true});
+      let savedData = Object.assign({}, state, {isSaving: false, isSaved: true});
+      savedData.data.push(action.event);
+      return savedData;
+    case UPDATED:
+      let updatedData = Object.assign({}, state, {isSaving: false, isSaved: true});
+      updatedData.data = updatedData.data.map(function(event) {
+        let result = event._id === action.event._id ? action.event : event;
+        return result;
+      });
+      return updatedData;
     case NOT_SAVED:
       return Object.assign({}, state, {isSaving: false, isSaved: false});
     case DAY_DATA_NOT_RECEIVE:
