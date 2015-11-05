@@ -13,6 +13,7 @@ import {
   UPDATED,
   NOT_SAVED
 } from '../actions/addActions';
+import moment from 'moment';
 
 const viewState = {
   view: 'day',

@@ -6,6 +6,7 @@ import { deleteEventAction, editEventAction } from '../actions/uiActions';
 import {
   List
 } from 'material-ui';
+import moment from 'moment';
 
 class Day extends Component {
   constructor() {
@@ -25,20 +26,67 @@ class Day extends Component {
     this.props.dispatch(editEventAction(event));
   }
 
+  getDayData() {
+    let dayData = {
+      today: [],
+      tomorrow: [],
+      dayAfterTomorrow: []
+    };
+    this.props.uiState.data.forEach(function(current) {
+      if(moment(current.start).isAfter(moment().startOf('day')) &&
+        moment(current.start).isBefore(moment().endOf('day'))) {
+          dayData.today.push(current);
+      } else if(moment(current.start).isAfter(moment().startOf('day').add(1, 'd')) &&
+        moment(current.start).isBefore(moment().endOf('day').add(1, 'd'))) {
+          dayData.tomorrow.push(current);
+      } else if(moment(current.start).isAfter(moment().startOf('day').add(2, 'd')) &&
+        moment(current.start).isBefore(moment().endOf('day').add(2, 'd'))) {
+          dayData.dayAfterTomorrow.push(current);
+      }
+    });
+    return dayData;
+  }
+
   render() {
-    console.log(this.props.uiState.data);
+    const dayData = this.getDayData();
     return (
-      <div className="list">
-        <List subheader='today'>
-          {this.props.uiState.data.map((item, index) => {
-            return <Event
-              key={item._id}
-              {...item}
-              handleEventDelete={this._handleEventDelete.bind(this)}
-              handleEventEdit={this._handleEventEdit.bind(this)}
-            />;
-          })}
-        </List>
+      <div>
+        <div className="list">
+          <List subheader='today'>
+            {dayData.today.map((item, index) => {
+              return <Event
+                key={item._id}
+                {...item}
+                handleEventDelete={this._handleEventDelete.bind(this)}
+                handleEventEdit={this._handleEventEdit.bind(this)}
+              />;
+            })}
+          </List>
+        </div>
+        <div className="list">
+          <List subheader='tomorrow'>
+            {dayData.tomorrow.map((item, index) => {
+              return <Event
+                key={item._id}
+                {...item}
+                handleEventDelete={this._handleEventDelete.bind(this)}
+                handleEventEdit={this._handleEventEdit.bind(this)}
+              />;
+            })}
+          </List>
+        </div>
+        <div className="list">
+          <List subheader='day after tomorrow'>
+            {dayData.dayAfterTomorrow.map((item, index) => {
+              return <Event
+                key={item._id}
+                {...item}
+                handleEventDelete={this._handleEventDelete.bind(this)}
+                handleEventEdit={this._handleEventEdit.bind(this)}
+              />;
+            })}
+          </List>
+        </div>
       </div>
     );
   }

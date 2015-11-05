@@ -43,7 +43,7 @@ export function toggleAddViewAction() {
 export function dayViewAction() {
   return dispatch => {
     dispatch(_dayViewAction());
-    return request.get(API_ENDPOINT + '/event')
+    return request.get(API_ENDPOINT + '/event/search/day')
     .end(function(err, res) {
       if(res && res.status !== 'error') {
         dispatch(_dayDataReceiveAction(res.body));
