@@ -22,6 +22,11 @@ export default class Toolbar extends Component {
               onClick={this.props.monthView}>
               Month
             </button>
+            <button
+              className='toolbar-btn__space mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'
+              onClick={this.props.sync}>
+              Sync
+            </button>
           </div>
         </div>
         <div className='mdl-cell mdl-cell--4-col'>

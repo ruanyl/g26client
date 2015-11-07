@@ -3,9 +3,11 @@ import {
   MONTH_VIEW,
   TOGGLE_ADD_VIEW,
   DAY_DATA_RECEIVE,
-  DAY_DATA_NOT_RECEIVE,
+  MONTH_DATA_RECEIVE,
+  DATA_NOT_RECEIVE,
   DELETE_EVENT,
-  EDIT_EVENT
+  EDIT_EVENT,
+  SYNCED_TO_DB
 } from '../actions/uiActions';
 import {
   SAVING,
@@ -48,9 +50,11 @@ export function uiState(state = viewState, action) {
       return updatedData;
     case NOT_SAVED:
       return Object.assign({}, state, {isSaving: false, isSaved: false});
-    case DAY_DATA_NOT_RECEIVE:
+    case DATA_NOT_RECEIVE:
       return Object.assign({}, state, {dataError: true});
     case DAY_DATA_RECEIVE:
+      return Object.assign({}, state, {dataError: false, data: action.data});
+    case MONTH_DATA_RECEIVE:
       return Object.assign({}, state, {dataError: false, data: action.data});
     case DELETE_EVENT:
       let data = state.data.filter(function(event) {
@@ -59,6 +63,8 @@ export function uiState(state = viewState, action) {
       return Object.assign({}, state, {data: data});
     case EDIT_EVENT:
       return Object.assign({}, state, {showAdd: true});
+    case SYNCED_TO_DB:
+      return Object.assign({}, state);
     default:
       return state;
   }
