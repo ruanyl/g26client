@@ -4,7 +4,7 @@ import Add from '../components/Add';
 import Day from '../components/Day';
 import Month from '../components/Month';
 import {connect} from 'react-redux';
-import {dayViewAction, monthViewAction, toggleAddViewAction, syncToDbAction} from '../actions/uiActions';
+import {dayViewAction, monthViewAction, toggleAddViewAction, syncToDbAction, allViewAction} from '../actions/uiActions';
 const GoogleApi = require('google-client-api');
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -25,6 +25,10 @@ class App extends Component {
 
   handleMonthView() {
     this.props.dispatch(monthViewAction());
+  }
+
+  handleAllView() {
+    this.props.dispatch(allViewAction());
   }
 
   handleAddView() {
@@ -84,6 +88,7 @@ class App extends Component {
         <Toolbar
           dayView={this.handleDayView.bind(this)}
           monthView={this.handleMonthView.bind(this)}
+          allView={this.handleAllView.bind(this)}
           sync={this.handleSync.bind(this)}
           addView={this.handleAddView.bind(this)} />
         { this.getView() }

@@ -7,7 +7,8 @@ import {
   DATA_NOT_RECEIVE,
   DELETE_EVENT,
   EDIT_EVENT,
-  SYNCED_TO_DB
+  SYNCED_TO_DB,
+  ALL_DATA_RECEIVE
 } from '../actions/uiActions';
 import {
   SAVING,
@@ -55,6 +56,8 @@ export function uiState(state = viewState, action) {
     case DAY_DATA_RECEIVE:
       return Object.assign({}, state, {dataError: false, data: action.data});
     case MONTH_DATA_RECEIVE:
+      return Object.assign({}, state, {dataError: false, data: action.data});
+    case ALL_DATA_RECEIVE:
       return Object.assign({}, state, {dataError: false, data: action.data});
     case DELETE_EVENT:
       let data = state.data.filter(function(event) {

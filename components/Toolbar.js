@@ -24,6 +24,11 @@ export default class Toolbar extends Component {
             </button>
             <button
               className='toolbar-btn__space mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'
+              onClick={this.props.allView}>
+              All
+            </button>
+            <button
+              className='toolbar-btn__space mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'
               onClick={this.props.sync}>
               Sync
             </button>
