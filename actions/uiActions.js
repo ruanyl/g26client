@@ -10,7 +10,7 @@ export const EDIT_EVENT = 'EDIT_EVENT';
 export const DELETE_EVENT = 'DELETE_EVENT';
 export const SYNCED_TO_DB = 'SYNCED_TO_DB';
 export const ALL_DATA_RECEIVE = 'ALL_DATA_RECEIVE';
-const API_ENDPOINT = 'http://localhost:3000';
+const API_ENDPOINT = 'http://130.233.42.72:3000';
 
 function _dayViewAction() {
   return {
