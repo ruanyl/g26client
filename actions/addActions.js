@@ -13,7 +13,7 @@ export const SAVING = 'SAVING';
 export const SAVED = 'SAVED';
 export const UPDATED = 'UPDATED';
 export const NOT_SAVED = 'NOT_SAVED';
-const API_ENDPOINT = 'http://localhost:3000';
+const API_ENDPOINT = 'http://130.233.42.72:3000';
 
 export function addTitleAction(title) {
   return {
